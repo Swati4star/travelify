@@ -45,13 +45,9 @@ public class shareContact extends AppCompatActivity {
                 //Create a new Intent to send to QR Droid
                 Intent qrDroid = new Intent(Services.ENCODE); //Set action "la.droid.qr.encode"
 
-                String mPhoneNumber = s.getString(Constants.USER_NUMBER, "9971604989");
+                String mPhoneNumber = s.getString(Constants.USER_NUMBER, "997112322");
                 String name = s.getString(Constants.USER_NAME, "Swati Garg");
-                //Set text to encode
-                if (mPhoneNumber == null)
-                    mPhoneNumber = "9971604989";
-
-
+                
                 qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
 
                 Log.e("here", "Hey, My contact number is :" + mPhoneNumber);
@@ -114,7 +110,6 @@ public class shareContact extends AppCompatActivity {
 
             addContact(x[1], x[0]);
 
-
             TextView resultTxt = (TextView) findViewById(R.id.result);
             resultTxt.setText(r);
             resultTxt.setVisibility(View.VISIBLE);
@@ -139,9 +134,6 @@ public class shareContact extends AppCompatActivity {
             imgResult.setImageURI(Uri.parse(qrCode));
 
             imgResult.setVisibility(View.VISIBLE);
-
-            //TODO: After using this QR code, you should move it to a permanent location, or delete it
-
         }
     }
 

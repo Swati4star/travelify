@@ -178,12 +178,13 @@ public class MapRealTimeActivity extends AppCompatActivity {
             @Override
             public void onResponse(final Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         Log.e("YO", "Done");
                         try {
-                            final JSONObject json = new JSONObject(response.body().string());
+                            final JSONObject json = new JSONObject(res);
                             JSONArray routeArray = json.getJSONArray("results");
 
                             for (int i = 0; i < routeArray.length(); i++) {
@@ -202,8 +203,6 @@ public class MapRealTimeActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e("erro", e.getMessage() + " ");
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
                         }
                     }
                 });
@@ -226,12 +225,6 @@ public class MapRealTimeActivity extends AppCompatActivity {
                     .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                         @Override
                         public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                            /**
-                             * If you use alwaysCallMultiChoiceCallback(), which is discussed below,
-                             * returning false here won't allow the newly selected check box to actually be selected.
-                             * See the limited multi choice dialog example in the sample project for details.
-                             **/
-
 
                             map.clear();
                             name.clear();

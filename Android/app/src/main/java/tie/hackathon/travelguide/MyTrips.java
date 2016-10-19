@@ -78,8 +78,6 @@ public class MyTrips extends AppCompatActivity {
     }
 
 
-
-
     public void mytrip() {
 
         dialog = new MaterialDialog.Builder(MyTrips.this)
@@ -108,28 +106,28 @@ public class MyTrips extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
+                JSONArray arr;
+                try {
+                    arr = new JSONArray(res);
+
+                    for (int i = 0; i < arr.length(); i++) {
+                        id.add(arr.getJSONObject(i).getString("id"));
+                        start.add(arr.getJSONObject(i).getString("start_time"));
+                        end.add(arr.getJSONObject(i).getString("end_time"));
+                        name.add(arr.getJSONObject(i).getString("city"));
+                        tname.add(arr.getJSONObject(i).getString("title"));
+                        image.add(arr.getJSONObject(i).getString("image"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("erro", e.getMessage() + " ");
+                }
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        JSONArray arr;
-                        try {
-                            arr = new JSONArray(response.body().string());
-
-                            for (int i = 0; i < arr.length(); i++) {
-                                id.add(arr.getJSONObject(i).getString("id"));
-                                start.add(arr.getJSONObject(i).getString("start_time"));
-                                end.add(arr.getJSONObject(i).getString("end_time"));
-                                name.add(arr.getJSONObject(i).getString("city"));
-                                tname.add(arr.getJSONObject(i).getString("title"));
-                                image.add(arr.getJSONObject(i).getString("image"));
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
+                        dialog.dismiss();
+                        g.setAdapter(new MyTripsadapter(MyTrips.this, id, name, image, start, end));
                     }
                 });
 

@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         });
 
-
         // Get user's login id
         String isid = sharedPreferences.getString(Constants.UID, null);
         if (isid == null)
@@ -114,8 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 

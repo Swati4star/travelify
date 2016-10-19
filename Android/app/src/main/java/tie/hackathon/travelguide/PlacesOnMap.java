@@ -144,7 +144,6 @@ public class PlacesOnMap extends AppCompatActivity {
     }
 
 
-
     public void getPlaces() {
 
         progressDialog = new ProgressDialog(PlacesOnMap.this);
@@ -173,12 +172,13 @@ public class PlacesOnMap extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
+
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            JSONObject YTFeed = new JSONObject(response.body().string());
-
+                            JSONObject YTFeed = new JSONObject(res);
 
                             JSONArray YTFeedItems = YTFeed.getJSONArray("results");
                             Log.e("response", YTFeedItems + " ");
@@ -189,9 +189,7 @@ public class PlacesOnMap extends AppCompatActivity {
                             progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
+                            Log.e("ERROR : ", e.getMessage() + " ");
                         }
                     }
                 });

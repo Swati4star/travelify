@@ -87,15 +87,16 @@ public class FunFacts extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        List<Fragment> fList = new ArrayList<Fragment>();
 
                         try {
-                            JSONObject ob = new JSONObject(response.body().string());
+                            JSONObject ob = new JSONObject(res);
                             JSONArray ar = ob.getJSONArray("facts");
 
+                            List<Fragment> fList = new ArrayList<Fragment>();
                             for (int i = 0; i < ar.length(); i++)
                                 fList.add(Funfact_fragment.newInstance(ar.getJSONObject(i).getString("image"),
                                         ar.getJSONObject(i).getString("fact"), name));
@@ -104,9 +105,7 @@ public class FunFacts extends AppCompatActivity {
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
-                            Log.e("heer", e1.getMessage() + " ");
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            Log.e("ERROR : ", e1.getMessage() + " ");
                         }
                         dialog.dismiss();
                     }

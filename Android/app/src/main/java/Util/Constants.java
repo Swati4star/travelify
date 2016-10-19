@@ -66,7 +66,7 @@ public class Constants {
 
     public static String userid="USERID";
     public static String servicetype="servicetype";
-    public static  String apilink = "http://csinsit.org/prabhakar/tie/";
+    public static  String apilink = "http://csinsit.org/prabhakar/travelify/";
     public static  String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
 

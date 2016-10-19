@@ -234,6 +234,7 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
+                        dialog.dismiss();
                     }
                 });
 

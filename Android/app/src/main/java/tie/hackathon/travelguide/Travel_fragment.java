@@ -25,13 +25,11 @@ public class Travel_fragment extends Fragment implements View.OnClickListener {
 
         View v = inflater.inflate(R.layout.content_travel, container, false);
 
-        shop = (LinearLayout) v.findViewById(R.id.shopping);
         mytrips = (LinearLayout) v.findViewById(R.id.mytrips);
         realtime = (LinearLayout) v.findViewById(R.id.realtime);
 
         realtime.setOnClickListener(this);
         mytrips.setOnClickListener(this);
-        shop.setOnClickListener(this);
 
         return v;
     }
@@ -49,11 +47,6 @@ public class Travel_fragment extends Fragment implements View.OnClickListener {
         Intent intent;
 
         switch (view.getId()) {
-
-            case R.id.shopping:
-                intent = new Intent(activity, Shopping_currentcity.class);
-                startActivity(intent);
-                break;
 
             case R.id.realtime:
                 intent = new Intent(activity, MapRealTimeActivity.class);

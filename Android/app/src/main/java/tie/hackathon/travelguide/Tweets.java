@@ -49,8 +49,6 @@ public class Tweets extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.list);
         mHandler = new Handler(Looper.getMainLooper());
 
-        getTweets();
-
         i = getIntent();
         tit = i.getStringExtra("name_");
         setTitle(tit);
@@ -60,6 +58,8 @@ public class Tweets extends AppCompatActivity {
         nam = new ArrayList<>();
         cou = new ArrayList<>();
         lin = new ArrayList<>();
+
+        getTweets();
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,12 +96,13 @@ public class Tweets extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             //Tranform the string into a json object
-                            JSONArray ob = new JSONArray(response.body().string());
+                            JSONArray ob = new JSONArray(res);
                             for (int i = 0; i < ob.length(); i++) {
                                 nam.add(ob.getJSONObject(i).getString("name"));
                                 lin.add(ob.getJSONObject(i).getString("url"));
@@ -114,8 +115,6 @@ public class Tweets extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e("erro", e.getMessage() + " ");
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
                         }
                     }
                 });
