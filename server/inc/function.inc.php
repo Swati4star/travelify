@@ -132,14 +132,3 @@ function increase_trip_count($connection, $city_id){
 	return (bool)mysqli_query($connection, $query);
 }
 
-
-/**
- * get name of city from city ID
- * @param  connection_object	$connection
- * @param  integer				$city_id    
- * @return string 								city name
- */
-function getCityName($connection, $city_id){
-	$query = "SELECT `city_name` FROM `cities` WHERE `id`='$city_id' LIMIT 1";
-	return mysqli_fetch_assoc(mysqli_query($connection, $query));
-}

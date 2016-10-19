@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Mar 22, 2016 at 10:21 AM
+-- Generation Time: Oct 19, 2016 at 01:40 PM
 -- Server version: 5.6.22-72.0-log
 -- PHP Version: 5.4.31
 
@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `csinseew_pg_tie`
+-- Database: `csinseew_pg_travelify`
 --
-CREATE DATABASE IF NOT EXISTS `csinseew_pg_tie` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `csinseew_pg_tie`;
+CREATE DATABASE IF NOT EXISTS `csinseew_pg_travelify` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `csinseew_pg_travelify`;
 
 -- --------------------------------------------------------
 
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `cities` (
   `lng` float NOT NULL,
   `image` varchar(500) DEFAULT NULL,
   `number_of_trips` int(11) NOT NULL DEFAULT '0',
+  `WOEID` int(10) NOT NULL DEFAULT '23424848',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
@@ -71,37 +72,6 @@ CREATE TABLE IF NOT EXISTS `city_images` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `monuments`
---
-
-DROP TABLE IF EXISTS `monuments`;
-CREATE TABLE IF NOT EXISTS `monuments` (
-  `monument_id` int(11) NOT NULL AUTO_INCREMENT,
-  `monument_name` varchar(200) NOT NULL,
-  `monument_description` text,
-  `monument_image` varchar(500) NOT NULL,
-  `city_id` int(11) NOT NULL,
-  PRIMARY KEY (`monument_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `monuments_estimote`
---
-
-DROP TABLE IF EXISTS `monuments_estimote`;
-CREATE TABLE IF NOT EXISTS `monuments_estimote` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `UID` varchar(40) NOT NULL,
-  `major` int(10) NOT NULL,
-  `minor` int(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `trips`
 --
 
@@ -113,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `trips` (
   `start_time` int(11) NOT NULL,
   `end_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`trip_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 -- --------------------------------------------------------
 
@@ -141,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `trip_users` (
   `trip_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`trip_user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
 -- --------------------------------------------------------
 
@@ -157,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `contact` (`contact`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
