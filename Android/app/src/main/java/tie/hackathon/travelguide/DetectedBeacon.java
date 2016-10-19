@@ -1,0 +1,125 @@
+package tie.hackathon.travelguide;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import Util.Constants;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+public class DetectedBeacon extends AppCompatActivity {
+
+    String major, name, des, image, cname, cid;
+    private Handler mHandler;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detected_beacon);
+
+        Intent intent = getIntent();
+
+        major = intent.getStringExtra(Constants.CUR_MAJOR);
+        Log.e("goit the beacon", major + " ");
+
+
+        mHandler = new Handler(Looper.getMainLooper());
+        getCity();
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+
+    public void getCity() {
+
+        // to fetch city names
+        String uri = Constants.apilink +
+                "estimote_monuments/get_info.php?id=" +
+                major;
+        Log.e("executing", uri + " ");
+
+
+        //Set up client
+        OkHttpClient client = new OkHttpClient();
+        //Execute request
+        final Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        //Setup callback
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("Request Failed", "Message : " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            final JSONObject json = new JSONObject(response.body().string());
+
+
+                            name = json.getString("monument_name");
+                            des = json.getString("monument_description");
+                            image = json.getString("monument_image");
+                            cname = json.getString("city_name");
+                            cid = json.getString("city_id");
+
+
+                            TextView tv = (TextView) findViewById(R.id.tv);
+                            tv.setText(des);
+
+                            tv = (TextView) findViewById(R.id.head);
+                            tv.setText(name);
+
+                            ImageView iv = (ImageView) findViewById(R.id.imag);
+                            Picasso.with(DetectedBeacon.this).load(image).error(R.drawable.delhi).placeholder(R.drawable.delhi).into(iv);
+
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                            Log.e("heer", e1.getMessage() + " ");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+}
