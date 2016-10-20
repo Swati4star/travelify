@@ -47,7 +47,7 @@ public class shareContact extends AppCompatActivity {
 
                 String mPhoneNumber = s.getString(Constants.USER_NUMBER, "997112322");
                 String name = s.getString(Constants.USER_NAME, "Swati Garg");
-                
+
                 qrDroid.putExtra(Services.CODE, mPhoneNumber + "---" + name);
 
                 Log.e("here", "Hey, My contact number is :" + mPhoneNumber);
