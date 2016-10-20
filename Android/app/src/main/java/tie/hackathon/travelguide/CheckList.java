@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+/**
+ * Activity displaying travel checklist
+ */
 public class CheckList extends AppCompatActivity {
 
     @Override
@@ -17,9 +20,10 @@ public class CheckList extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Set checklist fragment
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new CheckList_fragment();
+        fragment = new CheckListFragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         setTitle("Check List");

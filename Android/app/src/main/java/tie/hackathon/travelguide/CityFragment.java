@@ -39,7 +39,7 @@ import java.util.List;
 import Util.Constants;
 import flipviewpager.adapter.BaseFlipAdapter;
 import flipviewpager.utils.FlipSettings;
-import objects.Friend;
+import objects.City;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -47,7 +47,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import views.FontTextView;
 
-public class City_fragment extends Fragment {
+public class CityFragment extends Fragment {
 
 
     AutoCompleteTextView cityname;
@@ -63,7 +63,7 @@ public class City_fragment extends Fragment {
     Typeface tex;
     ListView lv;
 
-    public City_fragment() {
+    public CityFragment() {
     }
 
 
@@ -224,7 +224,7 @@ public class City_fragment extends Fragment {
                             JSONArray ar = ob.getJSONArray("cities");
                             pb.setVisibility(View.GONE);
                             FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
-                            List<Friend> friends = new ArrayList<>();
+                            List<City> friends = new ArrayList<>();
                             for (int i = 0; i < ar.length(); i++) {
 
 
@@ -263,13 +263,12 @@ public class City_fragment extends Fragment {
                                         break;
                                 }
 
-                                String dr = ar.getJSONObject(i).optString("image", "yolo");
-
-                                friends.add(new Friend(
+                                friends.add(new City(
 
                                         ar.getJSONObject(i).getString("id"),
-                                        dr,
-                                        ar.getJSONObject(i).getString("name"), colo,
+                                        ar.getJSONObject(i).optString("image", "yolo"),
+                                        ar.getJSONObject(i).getString("name"),
+                                        colo,
                                         ar.getJSONObject(i).getString("lat"),
                                         ar.getJSONObject(i).getString("lng"),
 
@@ -279,11 +278,11 @@ public class City_fragment extends Fragment {
                             }
 
 
-                            lv.setAdapter(new FriendsAdapter(activity, friends, settings));
+                            lv.setAdapter(new CityAdapter(activity, friends, settings));
                             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Friend f = (Friend) lv.getAdapter().getItem(position);
+                                    City f = (City) lv.getAdapter().getItem(position);
                                     Toast.makeText(activity, f.getNickname(), Toast.LENGTH_SHORT).show();
 
 
@@ -320,21 +319,21 @@ public class City_fragment extends Fragment {
     }
 
 
-    class FriendsAdapter extends BaseFlipAdapter<Friend> {
+    class CityAdapter extends BaseFlipAdapter<City> {
 
         private final int PAGES = 3;
         private int[] IDS_INTEREST = {R.id.interest_1, R.id.interest_2, R.id.interest_3, R.id.interest_4};
 
-        public FriendsAdapter(Context context, List<Friend> items, FlipSettings settings) {
+        public CityAdapter(Context context, List<City> items, FlipSettings settings) {
             super(context, items, settings);
         }
 
         @Override
-        public View getPage(int position, View convertView, ViewGroup parent, final Friend friend1, final Friend friend2) {
-            final FriendsHolder holder;
+        public View getPage(int position, View convertView, ViewGroup parent, final City friend1, final City friend2) {
+            final CitiesHolder holder;
 
             if (convertView == null) {
-                holder = new FriendsHolder();
+                holder = new CitiesHolder();
                 convertView = activity.getLayoutInflater().inflate(R.layout.friends_merge_page, parent, false);
                 holder.leftAvatar = (ImageView) convertView.findViewById(R.id.first);
                 holder.rightAvatar = (ImageView) convertView.findViewById(R.id.second);
@@ -352,7 +351,7 @@ public class City_fragment extends Fragment {
 
                 convertView.setTag(holder);
             } else {
-                holder = (FriendsHolder) convertView.getTag();
+                holder = (CitiesHolder) convertView.getTag();
             }
 
             switch (position) {
@@ -385,7 +384,7 @@ public class City_fragment extends Fragment {
             return PAGES;
         }
 
-        private void fillHolder(FriendsHolder holder, final Friend friend) {
+        private void fillHolder(CitiesHolder holder, final City friend) {
             if (friend == null)
                 return;
             Iterator<TextView> iViews = holder.interests.iterator();
@@ -454,13 +453,12 @@ public class City_fragment extends Fragment {
 
         }
 
-        class FriendsHolder {
+        class CitiesHolder {
             ImageView leftAvatar;
             ImageView rightAvatar;
             View infoPage;
             TextView fv1, fv2, fv3, fv4;
             TextView left, right;
-
             List<TextView> interests = new ArrayList<>();
             TextView nickName;
         }

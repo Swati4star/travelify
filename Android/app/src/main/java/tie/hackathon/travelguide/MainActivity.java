@@ -1,7 +1,6 @@
 package tie.hackathon.travelguide;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -27,19 +25,10 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 import Util.Constants;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -62,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Initially city fragment
         Fragment fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new City_fragment();
+        fragment = new CityFragment();
         fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         mHandler = new Handler(Looper.getMainLooper());
@@ -163,24 +152,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_travel) {
 
-            fragment = new Travel_fragment();
+            fragment = new TravelFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_city) {
 
-            fragment = new City_fragment();
+            fragment = new CityFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_utility) {
 
-            fragment = new utilities_fragment();
+            fragment = new UtilitiesFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
         } else if (id == R.id.nav_changecity) {
             Intent i = new Intent(MainActivity.this, SelectCity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_emergency) {
-            fragment = new Emergency_fragment();
+            fragment = new EmergencyFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_signout) {

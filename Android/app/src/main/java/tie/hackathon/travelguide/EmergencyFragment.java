@@ -11,15 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-
-public class Emergency_fragment extends Fragment implements View.OnClickListener {
-
+/**
+ * Displays emergency contact numbers
+ */
+public class EmergencyFragment extends Fragment implements View.OnClickListener {
 
     Button police, fire, ambulance, blood_bank, bomb, railways;
-
     Activity activity;
-
-    public Emergency_fragment() {
+    public EmergencyFragment() {
     }
 
     @Override

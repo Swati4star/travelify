@@ -40,7 +40,7 @@
 
 
         <activity
-            android:name=".Event_Image"
+            android:name=".EventImage"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme" />
 
@@ -99,7 +99,7 @@
             android:label="@string/title_activity_fun_facts"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DetectedBeacon" />
-        <activity android:name=".shareContact" />
+        <activity android:name=".ShareContact" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"

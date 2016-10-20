@@ -11,8 +11,7 @@ import Util.Constants;
 import adapters.ImageAdapter;
 
 
-public class Event_Image extends AppCompatActivity {
-
+public class EventImage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,24 +19,19 @@ public class Event_Image extends AppCompatActivity {
 
         setContentView(R.layout.activity_event__image);
 
-        Intent i = getIntent();
-        String name = i.getStringExtra(Constants.EVENT_NAME);
-        int pos = i.getIntExtra(Constants.IMAGE_NO, -1);
+        Intent intent = getIntent();
+        String name = intent.getStringExtra(Constants.EVENT_NAME);
+        int pos = intent.getIntExtra(Constants.IMAGE_NO, -1);
 
-
-        ArrayList<String> x = i.getStringArrayListExtra(Constants.EVENT_IMG);
+        ArrayList<String> images = intent.getStringArrayListExtra(Constants.EVENT_IMG);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        ImageAdapter adapter = new ImageAdapter(this, x);
+        ImageAdapter adapter = new ImageAdapter(this, images);
         viewPager.setAdapter(adapter);
         if (pos != -1)
             viewPager.setCurrentItem(pos);
 
-
         setTitle(name);
-
         getSupportActionBar().hide();
-
     }
-
 }

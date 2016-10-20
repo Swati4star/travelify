@@ -91,17 +91,17 @@ startActivity(browserIntent);
 
 
 
-   /* public static final List<Friend> friends = new ArrayList<>();
+   /* public static final List<City> friends = new ArrayList<>();
 
     static {
-        friends.add(new Friend(R.drawable.delhi, "ANASTASIA", R.color.sienna, "Sport", "Literature", "Music", "Art", "Technology"));
-        friends.add(new Friend(R.drawable.delhi, "IRENE", R.color.saffron, "Travelling", "Flights", "Books", "Painting", "Design"));
-        friends.add(new Friend(R.drawable.delhi, "KATE", R.color.green, "Sales", "Pets", "Skiing", "Hairstyles", "Сoffee"));
-        friends.add(new Friend(R.drawable.delhi, "PAUL", R.color.pink, "Android", "Development", "Design", "Wearables", "Pets"));
-        friends.add(new Friend(R.drawable.delhi, "DARIA", R.color.orange, "Design", "Fitness", "Healthcare", "UI/UX", "Chatting"));
-        friends.add(new Friend(R.drawable.delhi, "KIRILL", R.color.saffron, "Development", "Android", "Healthcare", "Sport", "Rock Music"));
-        friends.add(new Friend(R.drawable.delhi, "JULIA", R.color.green, "Cinema", "Music", "Tatoo", "Animals", "Management"));
-        friends.add(new Friend(R.drawable.delhi, "YALANTIS", R.color.purple, "Android", "IOS", "Application", "Development", "Company"));
+        friends.add(new City(R.drawable.delhi, "ANASTASIA", R.color.sienna, "Sport", "Literature", "Music", "Art", "Technology"));
+        friends.add(new City(R.drawable.delhi, "IRENE", R.color.saffron, "Travelling", "Flights", "Books", "Painting", "Design"));
+        friends.add(new City(R.drawable.delhi, "KATE", R.color.green, "Sales", "Pets", "Skiing", "Hairstyles", "Сoffee"));
+        friends.add(new City(R.drawable.delhi, "PAUL", R.color.pink, "Android", "Development", "Design", "Wearables", "Pets"));
+        friends.add(new City(R.drawable.delhi, "DARIA", R.color.orange, "Design", "Fitness", "Healthcare", "UI/UX", "Chatting"));
+        friends.add(new City(R.drawable.delhi, "KIRILL", R.color.saffron, "Development", "Android", "Healthcare", "Sport", "Rock Music"));
+        friends.add(new City(R.drawable.delhi, "JULIA", R.color.green, "Cinema", "Music", "Tatoo", "Animals", "Management"));
+        friends.add(new City(R.drawable.delhi, "YALANTIS", R.color.purple, "Android", "IOS", "Application", "Development", "Company"));
     }
 */
 

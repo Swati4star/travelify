@@ -1,5 +1,9 @@
 package adapters;
 
+/**
+ * Created by swati on 20/10/16.
+ */
+
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -12,26 +16,30 @@ import java.util.ArrayList;
 
 import Util.TouchImageView;
 
-
-/**
- * Created by swati on 1/1/16.
- */
 public class ImageAdapter extends PagerAdapter {
-    Context context;
-    private ArrayList<String> GalImages ;
-    public ImageAdapter(Context context,ArrayList<String> x){
-        GalImages = x;
-        this.context=context;
+    private Context mContext;
+    private ArrayList<String> GalImages;
+
+    /**
+     * Initializes and adapter that adds particular image into imageView adapter
+     * @param context The context referring this class
+     * @param images  Array list containing URLs of images
+     */
+    public ImageAdapter(Context context, ArrayList<String> images) {
+        GalImages = images;
+        this.mContext = context;
     }
+
+    /**
+     * Returns count of number of images in array list
+     * @return number of images
+     */
     @Override
     public int getCount() {
-        if(GalImages == null)
+        if (GalImages == null)
             return 0;
         return GalImages.size();
     }
-
-
-
 
 
     @Override
@@ -39,11 +47,17 @@ public class ImageAdapter extends PagerAdapter {
         return view == object;
     }
 
+    /***
+     * Display image at position in images Array in imageView
+     * @param container container view
+     * @param position  position of item
+     * @return          object instantiated
+     */
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        TouchImageView imageView = new TouchImageView(context);
+        TouchImageView imageView = new TouchImageView(mContext);
 
-        Picasso.with(context).load(GalImages.get(position)).into(imageView);
+        Picasso.with(mContext).load(GalImages.get(position)).into(imageView);
 
         container.addView(imageView, 0);
         return imageView;

@@ -24,6 +24,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * If estimote beacon is detected, this activity is opened up
+ */
 public class DetectedBeacon extends AppCompatActivity {
 
     String major, name, des, image, cname, cid;
@@ -35,28 +38,22 @@ public class DetectedBeacon extends AppCompatActivity {
         setContentView(R.layout.activity_detected_beacon);
 
         Intent intent = getIntent();
-
         major = intent.getStringExtra(Constants.CUR_MAJOR);
-        Log.e("goit the beacon", major + " ");
-
+        Log.e("Detected Beacon : ", major + " ");
 
         mHandler = new Handler(Looper.getMainLooper());
+        // Get city name from latitude longitude
         getCity();
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
 
     public void getCity() {
-
         // to fetch city names
-        String uri = Constants.apilink +
-                "estimote_monuments/get_info.php?id=" +
-                major;
+        String uri = Constants.apilink + "estimote_monuments/get_info.php?id=" + major;
         Log.e("executing", uri + " ");
-
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -74,52 +71,40 @@ public class DetectedBeacon extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            final JSONObject json = new JSONObject(response.body().string());
-
-
+                            final JSONObject json = new JSONObject(res);
                             name = json.getString("monument_name");
                             des = json.getString("monument_description");
                             image = json.getString("monument_image");
                             cname = json.getString("city_name");
                             cid = json.getString("city_id");
 
-
                             TextView tv = (TextView) findViewById(R.id.tv);
                             tv.setText(des);
-
                             tv = (TextView) findViewById(R.id.head);
                             tv.setText(name);
 
                             ImageView iv = (ImageView) findViewById(R.id.imag);
                             Picasso.with(DetectedBeacon.this).load(image).error(R.drawable.delhi).placeholder(R.drawable.delhi).into(iv);
 
-
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                            Log.e("heer", e1.getMessage() + " ");
-                        } catch (IOException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
                         }
-
                     }
                 });
-
             }
         });
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         return super.onOptionsItemSelected(item);
     }
-
 }

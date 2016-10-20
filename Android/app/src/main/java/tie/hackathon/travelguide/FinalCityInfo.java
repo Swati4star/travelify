@@ -29,17 +29,18 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Fetch city information for given city id
+ */
 public class FinalCityInfo extends AppCompatActivity implements View.OnClickListener {
 
-    Intent i;
-    String id, tit, image,description,lat,lon;
-    ImageView iv,ico;
-    TextView title;
+    Intent intent;
+    String id, tit, image, description, lat, lon;
+    TextView fftext, temp, humidity, weatherinfo, title;
+    ImageView iv, ico;
     ExpandableTextView des;
-    Typeface code,tex,codeb;
+    Typeface code, tex, codeb;
     private Handler mHandler;
-
-    TextView fftext,temp,humidity,weatherinfo;
     MaterialDialog dialog;
     LinearLayout funfact, restau, hangout, monum, shopp, trend;
 
@@ -63,11 +64,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         humidity = (TextView) findViewById(R.id.humidit);
         weatherinfo = (TextView) findViewById(R.id.weatherinfo);
 
-        i = getIntent();
-        tit = i.getStringExtra("name_");
+        intent = getIntent();
+        tit = intent.getStringExtra("name_");
         setTitle(tit);
-        id = i.getStringExtra("id_");
-        image = i.getStringExtra("image_");
+        id = intent.getStringExtra("id_");
+        image = intent.getStringExtra("image_");
 
         title.setTypeface(codeb);
         title.setText(tit);
@@ -78,7 +79,6 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         monum = (LinearLayout) findViewById(R.id.monu);
         shopp = (LinearLayout) findViewById(R.id.shoppp);
         trend = (LinearLayout) findViewById(R.id.trends);
-
 
         fftext = (TextView) findViewById(R.id.fftext);
         fftext.setTypeface(code);
@@ -93,7 +93,6 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         fftext = (TextView) findViewById(R.id.cttext);
         fftext.setTypeface(code);
 
-
         funfact.setOnClickListener(this);
         restau.setOnClickListener(this);
         hangout.setOnClickListener(this);
@@ -101,9 +100,12 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         shopp.setOnClickListener(this);
         trend.setOnClickListener(this);
 
+        // Fetch city info
         cityInfo();
 
+        // Load image into ImageView
         Picasso.with(this).load(image).into(iv);
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -111,7 +113,6 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
@@ -128,21 +129,19 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 i.putExtra("name_", tit);
                 startActivity(i);
                 break;
-
-
             case R.id.restau:
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
                 i.putExtra("id_", id);
-                i.putExtra("lat_",lat);
-                i.putExtra("lng_",lon);
+                i.putExtra("lat_", lat);
+                i.putExtra("lng_", lon);
                 i.putExtra("name_", tit);
                 i.putExtra("type_", "restaurant");
                 startActivity(i);
                 break;
-            case R.id.hang:
+            case R.id.hangout:
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
-                i.putExtra("lat_",lat);
-                i.putExtra("lng_",lon);
+                i.putExtra("lat_", lat);
+                i.putExtra("lng_", lon);
                 i.putExtra("id_", id);
                 i.putExtra("name_", tit);
                 i.putExtra("type_", "hangout");
@@ -150,38 +149,34 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.monu:
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
-                i.putExtra("lat_",lat);
-                i.putExtra("lng_",lon);
+                i.putExtra("lat_", lat);
+                i.putExtra("lng_", lon);
                 i.putExtra("id_", id);
                 i.putExtra("name_", tit);
                 i.putExtra("type_", "monument");
                 startActivity(i);
                 break;
             case R.id.shoppp:
-
                 i = new Intent(FinalCityInfo.this, PlacesOnMap.class);
                 i.putExtra("id_", id);
                 i.putExtra("name_", tit);
-                i.putExtra("lat_",lat);
-                i.putExtra("lng_",lon);
+                i.putExtra("lat_", lat);
+                i.putExtra("lng_", lon);
                 i.putExtra("type_", "shopping");
                 startActivity(i);
                 break;
-
-
-            case R.id.trends :
+            case R.id.trends:
                 i = new Intent(FinalCityInfo.this, Tweets.class);
                 i.putExtra("id_", id);
                 i.putExtra("name_", tit);
                 startActivity(i);
                 break;
-
-
         }
-
     }
 
-
+    /**
+     * Fetch city informations
+     */
     public void cityInfo() {
 
         dialog = new MaterialDialog.Builder(FinalCityInfo.this)
@@ -193,7 +188,6 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
         // to fetch city names
         String uri = Constants.apilink + "city/info.php?id=" + id;
         Log.e("executing", uri + " ");
-
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -211,18 +205,17 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            //Tranform the string into a json object
-                            JSONObject ob = new JSONObject(response.body().string());
-
+                            JSONObject ob = new JSONObject(res);
                             description = ob.getString("description");
                             des.setText(description);
 
                             Picasso.with(FinalCityInfo.this).load(ob.getJSONObject("weather").getString("icon")).into(ico);
-                            temp.setText(ob.getJSONObject("weather").getString("temprature")+  (char) 0x00B0 + " C ");
+                            temp.setText(ob.getJSONObject("weather").getString("temprature") + (char) 0x00B0 + " C ");
                             humidity.setText("Humidity : " + ob.getJSONObject("weather").getString("humidity"));
                             weatherinfo.setText(ob.getJSONObject("weather").getString("description"));
                             lat = ob.getString("lat");
@@ -230,14 +223,11 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
+                            Log.e("EXCEPTION : ", e.getMessage() + " ");
                         }
                         dialog.dismiss();
                     }
                 });
-
             }
         });
     }

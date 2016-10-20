@@ -30,10 +30,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Funfacts activity
+ */
 public class FunFacts extends AppCompatActivity {
 
     String id, name;
-    ViewPager vp;
+    ViewPager viewPager;
     MaterialDialog dialog;
     private Handler mHandler;
 
@@ -49,8 +52,9 @@ public class FunFacts extends AppCompatActivity {
         name = i.getStringExtra("name_");
         mHandler = new Handler(Looper.getMainLooper());
 
-        vp = (ViewPager) findViewById(R.id.vp);
+        viewPager = (ViewPager) findViewById(R.id.vp);
 
+        // Fetch fun facts about city
         getCityFacts();
 
         getSupportActionBar().hide();
@@ -69,7 +73,6 @@ public class FunFacts extends AppCompatActivity {
         // to fetch city names
         String uri = Constants.apilink + "city_facts.php?id=" + id;
         Log.e("executing", uri + " ");
-
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -95,13 +98,12 @@ public class FunFacts extends AppCompatActivity {
                         try {
                             JSONObject ob = new JSONObject(res);
                             JSONArray ar = ob.getJSONArray("facts");
-
                             List<Fragment> fList = new ArrayList<Fragment>();
                             for (int i = 0; i < ar.length(); i++)
-                                fList.add(Funfact_fragment.newInstance(ar.getJSONObject(i).getString("image"),
+                                fList.add(FunfactFragment.newInstance(ar.getJSONObject(i).getString("image"),
                                         ar.getJSONObject(i).getString("fact"), name));
-                            vp.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
-                            vp.setPageTransformer(true, new AccordionTransformer());
+                            viewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager(), fList));
+                            viewPager.setPageTransformer(true, new AccordionTransformer());
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
@@ -115,11 +117,13 @@ public class FunFacts extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Sets adapter for funfacts
+     */
     class MyPageAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments;
 
-        public MyPageAdapter(FragmentManager fm, List<Fragment> fragments) {
+        MyPageAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
             this.fragments = fragments;
         }
@@ -134,6 +138,4 @@ public class FunFacts extends AppCompatActivity {
             return this.fragments.size();
         }
     }
-
-
 }

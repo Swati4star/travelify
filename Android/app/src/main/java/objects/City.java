@@ -8,13 +8,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Friend {
-    private String avatar;
-    private String nickname, id, la, lo;
+/**
+ * Model class for city object
+ */
+public class City {
+    private String avatar, nickname, id, la, lo;
     private int background;
     private List<String> interests = new ArrayList<>();
 
-    public Friend(String id, String avatar, String nickname, int background, String lat, String lon, String... interest) {
+    /**
+     * Instantiates city object
+     * @param id            unique id for a city
+     * @param avatar        city image
+     * @param nickname      city name
+     * @param background    Background color when card is opened
+     * @param lat           latitude of city
+     * @param lon           longitude of city
+     * @param interest      list of items when string is opened
+     */
+    public City(String id, String avatar, String nickname, int background, String lat, String lon, String... interest) {
         this.avatar = avatar;
         this.id = id;
         this.la = lat;
@@ -32,7 +44,6 @@ public class Friend {
         return nickname;
     }
 
-
     public String getId() {
         return id;
     }
@@ -45,7 +56,6 @@ public class Friend {
         return lo;
     }
 
-
     public int getBackground() {
         return background;
     }
@@ -53,6 +63,5 @@ public class Friend {
     public List<String> getInterests() {
         return interests;
     }
-
 
 }

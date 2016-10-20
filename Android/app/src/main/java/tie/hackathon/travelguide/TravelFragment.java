@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 
-public class Travel_fragment extends Fragment implements View.OnClickListener {
+public class TravelFragment extends Fragment implements View.OnClickListener {
 
     Activity activity;
     LinearLayout shop, realtime, mytrips;
 
-    public Travel_fragment() {}
+    public TravelFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

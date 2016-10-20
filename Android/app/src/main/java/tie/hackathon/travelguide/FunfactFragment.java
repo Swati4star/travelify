@@ -20,32 +20,42 @@ import java.io.FileOutputStream;
 
 /**
  * Created by swati on 25/1/16.
+ *
+ * to display fun facts about a city
  */
-public class Funfact_fragment extends Fragment {
+public class FunfactFragment extends Fragment {
     File file;
     public static final String EXTRA_MESSAGE_IMAGE = "_image";
     public static final String EXTRA_MESSAGE_TEXT = "_text";
     public static final String EXTRA_MESSAGE_TITLE = "_title";
 
-    public static Funfact_fragment newInstance(String image, String text, String title) {
-        Funfact_fragment f = new Funfact_fragment();
+    /**
+     * instantiate funfact fragment
+     * @param image Image of fun fact
+     * @param text  Fun fact text
+     * @param title Title
+     * @return      fragment object
+     */
+    public static FunfactFragment newInstance(String image, String text, String title) {
+        FunfactFragment fragment = new FunfactFragment();
         Bundle bdl = new Bundle(1);
         bdl.putString(EXTRA_MESSAGE_IMAGE, image);
         bdl.putString(EXTRA_MESSAGE_TEXT, text);
         bdl.putString(EXTRA_MESSAGE_TITLE, title);
-        f.setArguments(bdl);
-        return f;
+        fragment.setArguments(bdl);
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         String image = getArguments().getString(EXTRA_MESSAGE_IMAGE);
         String text = getArguments().getString(EXTRA_MESSAGE_TEXT);
+
         View v = inflater.inflate(R.layout.funfact_fragment, container, false);
         TextView tv = (TextView) v.findViewById(R.id.tv);
         tv.setText(text);
-
         tv = (TextView) v.findViewById(R.id.head);
         tv.setText(getArguments().getString(EXTRA_MESSAGE_TITLE));
 
@@ -63,13 +73,14 @@ public class Funfact_fragment extends Fragment {
             }
         });
 
-
-        //TextView messageTextView = (TextView)v.findViewById(R.id.textView);
-        //messageTextView.setText(message);
         return v;
     }
 
-
+    /**
+     * Takes screenshot of current screen
+     * @param view to be taken screenshot of
+     * @return     bitmap of the screenshot
+     */
     public static Bitmap getScreenShot(View view) {
         View screenView = view.getRootView();
         screenView.setDrawingCacheEnabled(true);
@@ -78,8 +89,12 @@ public class Funfact_fragment extends Fragment {
         return bitmap;
     }
 
-
-    public void store(Bitmap bm, String fileName) {
+    /**
+     * Store bitmap file in MyScreenshots directory
+     * @param bitmap        bitmap to be saved
+     * @param fileName  Name of bitmap file
+     */
+    public void store(Bitmap bitmap, String fileName) {
         String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyScreenshots";
         File dr = new File(dir);
         if (!dr.exists())
@@ -87,7 +102,7 @@ public class Funfact_fragment extends Fragment {
         file = new File(dr, fileName);
         try {
             FileOutputStream fOut = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
             fOut.flush();
             fOut.close();
         } catch (Exception e) {
@@ -95,17 +110,19 @@ public class Funfact_fragment extends Fragment {
         }
     }
 
+    /**
+     * To Share a file via file sharer
+     * @param file  File location to be shared
+     */
     private void shareImage(File file) {
         Uri uri = Uri.fromFile(file);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
-
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
         intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(intent, "Share Screenshot"));
     }
-
 
 }

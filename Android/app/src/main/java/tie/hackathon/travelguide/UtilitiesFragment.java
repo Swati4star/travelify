@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-public class utilities_fragment extends Fragment implements View.OnClickListener {
+public class UtilitiesFragment extends Fragment implements View.OnClickListener {
 
     Activity activity;
     LinearLayout sharecontact,checklist;
 
-    public utilities_fragment() {}
+    public UtilitiesFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +42,7 @@ public class utilities_fragment extends Fragment implements View.OnClickListener
         Intent intent;
         switch (view.getId()) {
             case R.id.sharecontact :
-                 intent = new Intent(activity, shareContact.class);
+                 intent = new Intent(activity, ShareContact.class);
                 startActivity(intent);
                 break;
             case R.id.checklist :

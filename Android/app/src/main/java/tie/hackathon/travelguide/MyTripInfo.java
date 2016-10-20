@@ -40,7 +40,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import Util.Constants;
-import objects.NestedListView;
+import adapters.NestedListView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -172,7 +172,7 @@ public class MyTripInfo extends AppCompatActivity {
                 holder.iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MyTripInfo.this, Event_Image.class);
+                        Intent i = new Intent(MyTripInfo.this, EventImage.class);
                         ArrayList<String> a = new ArrayList<String>();
                         a.add(name.get(position).getAbsolutePath());
 
@@ -220,12 +220,13 @@ public class MyTripInfo extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         JSONObject ob;
                         try {
-                            ob = new JSONObject(response.body().string());
+                            ob = new JSONObject(res);
                             title = ob.getString("title");
                             start = ob.getString("start_time");
                             end = ob.getString("end_time");
@@ -255,11 +256,8 @@ public class MyTripInfo extends AppCompatActivity {
 
                         } catch (JSONException e1) {
                             e1.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
                         dialog.dismiss();
-
                     }
                 });
 
@@ -425,7 +423,7 @@ public class MyTripInfo extends AppCompatActivity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MyTripInfo.this, "Friend added", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyTripInfo.this, "City added", Toast.LENGTH_LONG).show();
                         finish();
                         dialog.dismiss();
                     }
