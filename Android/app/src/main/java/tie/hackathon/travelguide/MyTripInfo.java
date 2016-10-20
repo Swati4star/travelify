@@ -48,16 +48,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MyTripInfo extends AppCompatActivity {
-    String id, title, start, end, city, friendid, img, mainfolder = "/storage/emulated/0/Pictures/", nameyet;
-    Intent i;
+
+    String id, title, start, end, city, friendid, img,
+            mainfolder = "/storage/emulated/0/Pictures/", nameyet;
+    Intent intent;
     MaterialDialog dialog;
     ImageView iv;
     TextView tite, date;
     FlatButton add;
     TwoWayView twoway;
-    List<String> fname;
     NestedListView lv;
     AutoCompleteTextView frendname;
+    List<String> fname;
     List<File> imagesuri, mediaimages;
     private Handler mHandler;
 
@@ -67,10 +69,14 @@ public class MyTripInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_trip_info);
-        i = getIntent();
-        id = i.getStringExtra("_id");
-        img = i.getStringExtra("_image");
+        intent = getIntent();
+        id = intent.getStringExtra("_id");
+        img = intent.getStringExtra("_image");
+
         mediaimages = new ArrayList<>();
+        imagesuri = new ArrayList<>();
+        fname = new ArrayList<>();
+
         twoway = (TwoWayView) findViewById(R.id.lv);
         iv = (ImageView) findViewById(R.id.image);
         tite = (TextView) findViewById(R.id.head);
@@ -78,9 +84,9 @@ public class MyTripInfo extends AppCompatActivity {
         lv = (NestedListView) findViewById(R.id.friendlist);
         add = (FlatButton) findViewById(R.id.newfrriend);
         frendname = (AutoCompleteTextView) findViewById(R.id.fname);
-        imagesuri = new ArrayList<>();
-        fname = new ArrayList<>();
+
         Picasso.with(this).load(img).into(iv);
+
         mHandler = new Handler(Looper.getMainLooper());
 
         File sdDir = new File(mainfolder);
@@ -94,25 +100,26 @@ public class MyTripInfo extends AppCompatActivity {
         Imagesadapter ad = new Imagesadapter(this, mediaimages);
         twoway.setAdapter(ad);
 
-
         frendname.setThreshold(1);
         frendname.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 nameyet = frendname.getText().toString();
                 if (!nameyet.contains(" ")) {
                     Log.e("name", nameyet + " ");
                     friendautocomplete();
                 }
+
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -124,6 +131,7 @@ public class MyTripInfo extends AppCompatActivity {
         });
 
         mytrip();
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -133,12 +141,10 @@ public class MyTripInfo extends AppCompatActivity {
         private final List<File> name;
 
 
-        public Imagesadapter(Activity context, List<File> name) {
+        Imagesadapter(Activity context, List<File> name) {
             super(context, R.layout.trip_listitem, name);
             this.context = context;
             this.name = name;
-
-
         }
 
         private class ViewHolder {
@@ -182,12 +188,8 @@ public class MyTripInfo extends AppCompatActivity {
                     }
                 });
             }
-
-
             return view;
         }
-
-
     }
 
 
@@ -272,7 +274,6 @@ public class MyTripInfo extends AppCompatActivity {
 
             ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
             for (int i = 0; i < image_uris.size(); i++) {
-                //imagesuri.add(image_uris.get(i).getPath());
                 Log.e("cdscsd", image_uris.get(i).getPath());
             }
             Toast.makeText(MyTripInfo.this, "Images added", Toast.LENGTH_LONG).show();

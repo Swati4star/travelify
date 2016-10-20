@@ -51,7 +51,7 @@ public class DetectedBeacon extends AppCompatActivity {
 
 
     public void getCity() {
-        // to fetch city names
+        // to fetch city name
         String uri = Constants.apilink + "estimote_monuments/get_info.php?id=" + major;
         Log.e("executing", uri + " ");
 
@@ -89,7 +89,11 @@ public class DetectedBeacon extends AppCompatActivity {
                             tv.setText(name);
 
                             ImageView iv = (ImageView) findViewById(R.id.imag);
-                            Picasso.with(DetectedBeacon.this).load(image).error(R.drawable.delhi).placeholder(R.drawable.delhi).into(iv);
+                            Picasso.with(DetectedBeacon.this)
+                                    .load(image)
+                                    .error(R.drawable.delhi)
+                                    .placeholder(R.drawable.delhi)
+                                    .into(iv);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

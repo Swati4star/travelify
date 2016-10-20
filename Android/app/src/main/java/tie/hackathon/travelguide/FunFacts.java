@@ -58,8 +58,6 @@ public class FunFacts extends AppCompatActivity {
         getCityFacts();
 
         getSupportActionBar().hide();
-
-
     }
 
     public void getCityFacts() {

@@ -1,12 +1,15 @@
 package tie.hackathon.travelguide;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -46,7 +49,7 @@ public class MapRealTimeActivity extends AppCompatActivity {
 
     com.google.android.gms.maps.MapFragment mapFragment;
     GoogleMap map;
-    SharedPreferences s;
+    SharedPreferences sharedPreferences;
     String sorcelat, deslat, sorcelon, deslon, surce, dest, curlat, curlon;
     List<String> name, nums, web, addr;
     ScrollView sc;
@@ -64,15 +67,16 @@ public class MapRealTimeActivity extends AppCompatActivity {
         map = mapFragment.getMap();
         mHandler = new Handler(Looper.getMainLooper());
 
-        s = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        sorcelat = s.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
-        sorcelon = s.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
-        deslat = s.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
-        deslon = s.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
-        surce = s.getString(Constants.SOURCE_CITY, "Delhi");
-        dest = s.getString(Constants.DESTINATION_CITY, "Mumbai");
+        sorcelat = sharedPreferences.getString(Constants.SOURCE_CITY_LAT, Constants.DELHI_LAT);
+        sorcelon = sharedPreferences.getString(Constants.SOURCE_CITY_LON, Constants.DELHI_LON);
+        deslat = sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, Constants.MUMBAI_LAT);
+        deslon = sharedPreferences.getString(Constants.DESTINATION_CITY_LON, Constants.MUMBAI_LON);
+        surce = sharedPreferences.getString(Constants.SOURCE_CITY, "Delhi");
+        dest = sharedPreferences.getString(Constants.DESTINATION_CITY, "Mumbai");
+
         sc = (ScrollView) findViewById(R.id.data);
         sc.setVisibility(View.GONE);
 
@@ -85,6 +89,8 @@ public class MapRealTimeActivity extends AppCompatActivity {
         curlon = deslon;
 
         setTitle("Places");
+
+        // Get user's current location
         GPSTracker tracker = new GPSTracker(this);
         if (!tracker.canGetLocation()) {
             tracker.showSettingsAlert();
@@ -97,28 +103,24 @@ public class MapRealTimeActivity extends AppCompatActivity {
                 curlat = "28.5952242";
                 curlon = "77.1656782";
             }
-
             getMarkers(0, R.drawable.ic_local_pizza_black_24dp);
         }
 
-
+        // Zoom to current location
         LatLng coordinate = new LatLng(Double.parseDouble(curlat), Double.parseDouble(curlon));
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
         map.animateCamera(yourLocation);
-
 
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 sc.setVisibility(View.VISIBLE);
-                int i;
-                for (i = 0; i < name.size(); i++) {
+                for (int i = 0; i < name.size(); i++) {
                     if (name.get(i).equals(marker.getTitle())) {
                         index = i;
                         break;
                     }
                 }
-
 
                 TextView Title = (TextView) findViewById(R.id.VideoTitle);
                 TextView Description = (TextView) findViewById(R.id.VideoDescription);
@@ -149,18 +151,21 @@ public class MapRealTimeActivity extends AppCompatActivity {
             }
 
         });
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
-
+    /**
+     * Calls API to get nearby places
+     *
+     * @param mo mode; type of places;
+     * @param ic marker icon
+     */
     public void getMarkers(int mo, final int ic) {
 
         String uri = Constants.apilink + "places-api.php?mode=" + mo + "&lat=" + curlat + "&lng=" + curlon;
         Log.e("executing", uri + " ");
-
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -196,27 +201,21 @@ public class MapRealTimeActivity extends AppCompatActivity {
                                         Double.parseDouble(routeArray.getJSONObject(i).getString("lng")),
                                         routeArray.getJSONObject(i).getString("name"),
                                         ic);
-
-
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
+                            Log.e("ERROR : ", e.getMessage() + " ");
                         }
                     }
                 });
-
             }
         });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home)
             finish();
-
         if (item.getItemId() == R.id.action_sort) {
 
             new MaterialDialog.Builder(this)
@@ -267,7 +266,6 @@ public class MapRealTimeActivity extends AppCompatActivity {
                                 }
                                 getMarkers(which[0], icon);
 
-
                             }
 
                             return true;
@@ -281,21 +279,31 @@ public class MapRealTimeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Sets marker at given location on map
+     * @param LocationLat   latitude
+     * @param LocationLong  longitude
+     * @param LocationName  name of location
+     * @param LocationIcon  icon
+     */
     public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
 
-        if (map != null) {
+        if (ContextCompat.checkSelfPermission(MapRealTimeActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (map != null) {
+                map.setMyLocationEnabled(true);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 10));
 
-            map.setMyLocationEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 10));
+                MarkerOptions abc = new MarkerOptions();
+                MarkerOptions x = abc
+                        .title(LocationName)
+                        .position(Coord)
+                        .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
+                map.addMarker(x);
 
-            MarkerOptions abc = new MarkerOptions();
-            MarkerOptions x = abc
-                    .title(LocationName)
-                    .position(Coord)
-                    .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
-            map.addMarker(x);
-
+            }
         }
     }
 

@@ -57,6 +57,7 @@ public class MyTrips extends AppCompatActivity {
         image = new ArrayList<>();
         start = new ArrayList<>();
         end = new ArrayList<>();
+
         s = PreferenceManager.getDefaultSharedPreferences(this);
         userid = s.getString(Constants.USER_ID, "1");
         g = (GridView) findViewById(R.id.gv);

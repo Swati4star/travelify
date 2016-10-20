@@ -30,6 +30,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Initiates login
+ */
 public class LoginActivity extends AppCompatActivity {
 
     TextView signup, login;
@@ -48,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        // Initialization
         signup = (TextView) findViewById(R.id.signup);
         login = (TextView) findViewById(R.id.login);
         sig = (LinearLayout) findViewById(R.id.signup_layout);
@@ -62,13 +65,15 @@ public class LoginActivity extends AppCompatActivity {
         ok_signup = (FlatButton) findViewById(R.id.ok_signup);
         mHandler = new Handler(Looper.getMainLooper());
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // If user is already logged in, open MainActivity
         if (sharedPreferences.getString(Constants.USER_ID, null) != null) {
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
         }
 
-
+        // Open signup
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Open login
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
+        // Call login
         ok_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Call signup
         ok_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +113,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Calls Login API and checks for validity of credentials
+     * If yes, transfer to MainActivity
+     *
+     * @param num  user's phone number
+     * @param pass password user entered
+     */
     public void login(final String num, String pass) {
 
         dialog = new MaterialDialog.Builder(LoginActivity.this)
@@ -134,16 +147,14 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-
+                final String res = response.body().string();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            JSONObject ob = new JSONObject(response.body().string());
-
+                            JSONObject ob = new JSONObject(res);
                             Boolean success = ob.getBoolean("success");
                             if (success) {
-
                                 JSONObject o = ob.getJSONObject("user_id");
                                 String id = o.getString("id");
                                 String name = o.getString("name");
@@ -153,23 +164,18 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.putString(Constants.USER_NUMBER, num);
                                 editor.apply();
 
-                                Log.e("vrsb", "id id" + id + name);
+                                Log.e("LOGIN : ", "id id" + id + name);
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(i);
                                 finish();
-
-
                             } else {
-
-                                Toast.makeText(LoginActivity.this, "Invalid Password or number", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Invalid Password or number", Toast.LENGTH_LONG)
+                                        .show();
                             }
-
                             dialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
+                            Log.e("ERROR : ", e.getMessage() + " ");
                         }
                     }
                 });
@@ -178,7 +184,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Calls Signup API
+     *
+     * @param name user's name
+     * @param num  user's phone number
+     * @param pass password user entered
+     */
     public void signup(final String name, final String num, String pass) {
 
         dialog = new MaterialDialog.Builder(LoginActivity.this)
@@ -189,7 +201,6 @@ public class LoginActivity extends AppCompatActivity {
 
         String uri = Constants.apilink + "users/signup.php?name=" + name + "&contact=" + num + "&password=" + pass;
         Log.e("executing", uri + " ");
-
 
         //Set up client
         OkHttpClient client = new OkHttpClient();
@@ -207,13 +218,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
 
+                final String res = response.body().string();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            JSONObject ob = new JSONObject(response.body().string());
+                            JSONObject ob = new JSONObject(res);
                             String id = ob.getString("user_id");
-
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString(Constants.USER_ID, id);
                             editor.putString(Constants.USER_NAME, name);
@@ -226,16 +237,11 @@ public class LoginActivity extends AppCompatActivity {
                             dialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("erro", e.getMessage() + " ");
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
+                            Log.e("ERROR : ", e.getMessage() + " ");
                         }
                     }
                 });
-
             }
         });
     }
-
-
 }

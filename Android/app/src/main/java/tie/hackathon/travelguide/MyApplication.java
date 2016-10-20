@@ -29,8 +29,6 @@ public class MyApplication extends Application {
         super.onCreate();
 
         beaconManager = new BeaconManager(getApplicationContext());
-
-
         beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
             @Override
             public void onEnteredRegion(Region region, List<Beacon> list) {
@@ -41,14 +39,10 @@ public class MyApplication extends Application {
 
             @Override
             public void onExitedRegion(Region region) {
-                // could add an "exit" notification too if you want (-:
                 showNotification(
                         "Good Bye!", "Hope to see you again :)", region.getMajor(), region.getMinor(), region.getProximityUUID().toString());
             }
-
-
         });
-
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
@@ -60,11 +54,16 @@ public class MyApplication extends Application {
             }
 
         });
-
-
     }
 
-
+    /**
+     * Show notification
+     * @param title     title
+     * @param message   Message
+     * @param major     Beacon major
+     * @param minor     Beacon minor
+     * @param uid       user id
+     */
     public void showNotification(String title, String message, int major, int minor, String uid) {
         Intent notifyIntent = new Intent(this, MainActivity.class);
         notifyIntent.putExtra(Constants.CUR_UID, uid);

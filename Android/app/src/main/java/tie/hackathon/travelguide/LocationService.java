@@ -1,5 +1,6 @@
 package tie.hackathon.travelguide;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,16 +24,18 @@ import Util.Constants;
 
 /**
  * Created by swati on 17/10/15.
+ * <p>
+ * A Service that checks user's current latitude and longitude,
+ * and displays a notification on a given one
  */
+
 public class LocationService extends Service {
     public static final String BROADCAST_ACTION = "Hello World";
-    private static final int TWO_MINUTES = 1000 * 60 * 2;
     public LocationManager locationManager;
     public MyLocationListener listener;
     public Location previousBestLocation = null;
 
     Intent intent;
-    int counter = 0;
 
     @Override
     public void onCreate() {
@@ -42,8 +47,12 @@ public class LocationService extends Service {
     public void onStart(Intent intent, int startId) {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         listener = new MyLocationListener();
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
+        if (ContextCompat.checkSelfPermission(LocationService.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
+        }
     }
 
     @Override
@@ -53,18 +62,12 @@ public class LocationService extends Service {
 
     protected boolean isBetterLocation(Location location, Location currentBestLocation) {
 
-
-        SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(LocationService.this);
-
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocationService.this);
         Double m = distance(location.getLatitude(),
-                Double.parseDouble(s.getString(Constants.DESTINATION_CITY_LAT, "0.0")),
+                Double.parseDouble(sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, "0.0")),
                 location.getLongitude(),
-                Double.parseDouble(s.getString(Constants.DESTINATION_CITY_LON, "0.0")));
-
-
+                Double.parseDouble(sharedPreferences.getString(Constants.DESTINATION_CITY_LON, "0.0")));
         return m < 5000;
-
-
     }
 
 
@@ -73,7 +76,11 @@ public class LocationService extends Service {
         // handler.removeCallbacks(sendUpdatesToUI);
         super.onDestroy();
         Log.v("STOP_SERVICE", "DONE");
-        locationManager.removeUpdates(listener);
+        if (ContextCompat.checkSelfPermission(LocationService.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationManager.removeUpdates(listener);
+        }
     }
 
     public static Thread performOnBackgroundThread(final Runnable runnable) {
@@ -88,12 +95,19 @@ public class LocationService extends Service {
         return t;
     }
 
+    /**
+     * Returns distance between 2 latitudes and longitudes
+     *
+     * @param lat1 Location 1 latitude
+     * @param lat2 Location 2 latitude
+     * @param lon1 Location 1 longitude
+     * @param lon2 Location 2 longitude
+     * @return distance between 2 locations
+     */
     public static double distance(double lat1, double lat2, double lon1,
                                   double lon2) {
 
         final int R = 6371; // Radius of the earth
-
-
         Double latDistance = Math.toRadians(lat2 - lat1);
         Double lonDistance = Math.toRadians(lon2 - lon1);
         Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
@@ -101,10 +115,7 @@ public class LocationService extends Service {
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c * 1000; // convert to meters
-
-
         distance = Math.pow(distance, 2);
-
         return Math.sqrt(distance);
     }
 
@@ -142,15 +153,11 @@ public class LocationService extends Service {
             Toast.makeText(getApplicationContext(), "Gps Disabled", Toast.LENGTH_SHORT).show();
         }
 
-
         public void onProviderEnabled(String provider) {
             Toast.makeText(getApplicationContext(), "Gps Enabled", Toast.LENGTH_SHORT).show();
         }
 
-
         public void onStatusChanged(String provider, int status, Bundle extras) {
-
         }
-
     }
 }
