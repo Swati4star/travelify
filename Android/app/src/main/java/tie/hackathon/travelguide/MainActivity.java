@@ -30,6 +30,9 @@ import java.util.UUID;
 
 import Util.Constants;
 
+/**
+ * Launcher Activity; Handles fragment changes;
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private BeaconManager beaconManager;
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    // Change fragment on selecting naviagtion drawer item
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -174,16 +178,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
         } else if (id == R.id.nav_signout) {
-
             sharedPreferences
                     .edit()
                     .putString(Constants.USER_ID, null)
                     .apply();
-
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             finish();
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

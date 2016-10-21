@@ -45,6 +45,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Show markers on map around user's current location
+ */
 public class MapRealTimeActivity extends AppCompatActivity {
 
     com.google.android.gms.maps.MapFragment mapFragment;
