@@ -7,6 +7,6 @@
         android:id="@+id/flip_view"
         android:layout_width="fill_parent"
         android:layout_height="192dp"
-        android:background="@android:color/transparent"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:background="@android:color/transparent" />
 </FrameLayout>

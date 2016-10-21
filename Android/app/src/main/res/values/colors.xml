@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF5722</color>
     <color name="green">#5cb85c</color>
     <color name="black">#000000</color>
+    <color name="red">#d9534f</color>
 
 
     <color name="saffron">#F4B63E</color>
@@ -13,5 +14,10 @@
     <color name="pink">#ff4284</color>
     <color name="orange">#ff8c6a</color>
 
+    <color name="versad">#6b0000</color>
+    <color name="sad">#db0000</color>
+    <color name="normal">#ffffff</color>
+    <color name="happy">#75db10</color>
+    <color name="verhappy">#00bb27</color>
 
 </resources>

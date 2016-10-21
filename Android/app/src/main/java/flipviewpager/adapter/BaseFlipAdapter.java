@@ -81,13 +81,13 @@ public abstract class BaseFlipAdapter<T> extends BaseAdapter {
         return convertView;
     }
 
-    class ViewHolder {
-        FlipViewPager mFlipViewPager;
-    }
-
     public abstract View getPage(int position, View convertView, ViewGroup parent, T item1, T item2);
 
     public abstract int getPagesCount();
+
+    class ViewHolder {
+        FlipViewPager mFlipViewPager;
+    }
 
     // Adapter merges 2 items together
     private class MergeAdapter extends BaseAdapter {

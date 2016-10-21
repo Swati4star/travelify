@@ -12,8 +12,6 @@
         android:padding="10dp">
 
 
-
-
         <TextView
             android:id="@+id/tagmain"
             android:layout_width="match_parent"
@@ -23,7 +21,6 @@
             android:text="Delhi"
             android:textColor="#000000"
             android:textSize="25sp" />
-
 
 
     </LinearLayout>

@@ -22,6 +22,7 @@ public class ImageAdapter extends PagerAdapter {
 
     /**
      * Initializes and adapter that adds particular image into imageView adapter
+     *
      * @param context The context referring this class
      * @param images  Array list containing URLs of images
      */
@@ -32,6 +33,7 @@ public class ImageAdapter extends PagerAdapter {
 
     /**
      * Returns count of number of images in array list
+     *
      * @return number of images
      */
     @Override
@@ -49,9 +51,10 @@ public class ImageAdapter extends PagerAdapter {
 
     /***
      * Display image at position in images Array in imageView
+     *
      * @param container container view
      * @param position  position of item
-     * @return          object instantiated
+     * @return object instantiated
      */
     @Override
     public Object instantiateItem(ViewGroup container, int position) {

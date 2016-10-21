@@ -13,9 +13,10 @@ import android.widget.LinearLayout;
 public class UtilitiesFragment extends Fragment implements View.OnClickListener {
 
     Activity activity;
-    LinearLayout sharecontact,checklist;
+    LinearLayout sharecontact, checklist;
 
-    public UtilitiesFragment() {}
+    public UtilitiesFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,18 +35,18 @@ public class UtilitiesFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
-        this.activity = (Activity)activity;
+        this.activity = (Activity) activity;
     }
 
     @Override
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
-            case R.id.sharecontact :
-                 intent = new Intent(activity, ShareContact.class);
+            case R.id.sharecontact:
+                intent = new Intent(activity, ShareContact.class);
                 startActivity(intent);
                 break;
-            case R.id.checklist :
+            case R.id.checklist:
                 intent = new Intent(activity, CheckList.class);
                 startActivity(intent);
                 break;

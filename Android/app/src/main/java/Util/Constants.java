@@ -57,20 +57,15 @@ public class Constants {
     public static String CUR_MINOR = "cur_minor";
 
 
-
     public static String UID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
-    public static int major = 22537 , minor = 18225; //purple
-    public static int major2 = 17417 , minor2 = 22087; //lime
+    public static int major = 22537, minor = 18225; //purple
+    public static int major2 = 17417, minor2 = 22087; //lime
 
 
-
-    public static String userid="USERID";
-    public static String servicetype="servicetype";
-    public static  String apilink = "http://csinsit.org/prabhakar/travelify/";
-    public static  String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
-
-
-
+    public static String userid = "USERID";
+    public static String servicetype = "servicetype";
+    public static String apilink = "http://csinsit.org/prabhakar/travelify/";
+    public static String maps_key = "AIzaSyBgktirlOODUO9zWD-808D7zycmP7smp-Y";
 
 
 }

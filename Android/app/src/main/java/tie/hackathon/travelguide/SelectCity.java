@@ -39,11 +39,11 @@ public class SelectCity extends AppCompatActivity {
     SharedPreferences s;
     String[] cities;
     SharedPreferences.Editor e;
-    private Handler mHandler;
     List<String> id = new ArrayList<>();
     List<String> names = new ArrayList<>();
     List<String> lat = new ArrayList<>();
     List<String> lon = new ArrayList<>();
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.eftimoff.androipathview.PathView;
+
 public class Splash extends AppCompatActivity {
 
     @Override
@@ -34,7 +35,7 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void run() {
-                Intent i = new Intent(Splash.this,LoginActivity.class);
+                Intent i = new Intent(Splash.this, LoginActivity.class);
                 startActivity(i);
                 finish();
 

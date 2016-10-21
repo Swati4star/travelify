@@ -58,11 +58,12 @@ public class MyApplication extends Application {
 
     /**
      * Show notification
-     * @param title     title
-     * @param message   Message
-     * @param major     Beacon major
-     * @param minor     Beacon minor
-     * @param uid       user id
+     *
+     * @param title   title
+     * @param message Message
+     * @param major   Beacon major
+     * @param minor   Beacon minor
+     * @param uid     user id
      */
     public void showNotification(String title, String message, int major, int minor, String uid) {
         Intent notifyIntent = new Intent(this, MainActivity.class);

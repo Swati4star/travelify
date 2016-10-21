@@ -1,12 +1,15 @@
 package tie.hackathon.travelguide;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,13 +48,13 @@ public class PlacesOnMap extends AppCompatActivity {
     TwoWayView lv;
     String id, name;
     Intent i;
-    private ProgressDialog progressDialog;
     String deslon, deslat;
     int mode, icon;
-    private Handler mHandler;
     String curlat, curlon, type;
     com.google.android.gms.maps.MapFragment mapFragment;
     GoogleMap map;
+    private ProgressDialog progressDialog;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,18 +131,21 @@ public class PlacesOnMap extends AppCompatActivity {
 
     public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);
+        if (ContextCompat.checkSelfPermission(PlacesOnMap.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (map != null) {
+                map.setMyLocationEnabled(true);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 14));
 
-        if (map != null) {
-            map.setMyLocationEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(Coord, 14));
+                MarkerOptions abc = new MarkerOptions();
+                MarkerOptions x = abc
+                        .title(LocationName)
+                        .position(Coord)
+                        .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
+                map.addMarker(x);
 
-            MarkerOptions abc = new MarkerOptions();
-            MarkerOptions x = abc
-                    .title(LocationName)
-                    .position(Coord)
-                    .icon(BitmapDescriptorFactory.fromResource(LocationIcon));
-            map.addMarker(x);
-
+            }
         }
     }
 

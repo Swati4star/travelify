@@ -38,7 +38,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <activity
             android:name=".EventImage"
             android:configChanges="orientation|screenSize"
@@ -54,7 +53,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_picker" />
 
+        <service android:name=".MusicService" />
         <service android:name=".LocationService" />
+
+        <activity
+            android:name=".Music"
+            android:label="Music"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".SelectCity"
@@ -73,12 +78,28 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".CityInfo"
-            android:label="@string/title_activity_city_info"
+            android:name=".SelectModeOfTransport"
+            android:label="@string/title_activity_select__mode_of_transport"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Shopping_currentcity"
+            android:name=".CarDirections"
+            android:label="@string/title_activity_car_directions"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BusList"
+            android:label="@string/title_activity_bus_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ShoppingCurrentcity"
             android:label="@string/title_activity_shopping_currentcity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TrainList"
+            android:label="@string/title_activity_train_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Hotels"
+            android:label="@string/title_activity_hotels"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MapRealTimeActivity"

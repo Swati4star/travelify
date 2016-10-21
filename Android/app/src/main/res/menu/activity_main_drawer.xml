@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_directions_car_black_24dp"
             android:title="Travel" />
         <item
+            android:id="@+id/nav_music"
+            android:icon="@drawable/ic_library_music_black_24dp"
+            android:title="Music" />
+        <item
             android:id="@+id/nav_utility"
             android:icon="@drawable/ic_share_black_24dp"
             android:title="Utilities" />

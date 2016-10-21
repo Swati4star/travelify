@@ -40,9 +40,9 @@ public class FinalCityInfo extends AppCompatActivity implements View.OnClickList
     ImageView iv, ico;
     ExpandableTextView des;
     Typeface code, tex, codeb;
-    private Handler mHandler;
     MaterialDialog dialog;
     LinearLayout funfact, restau, hangout, monum, shopp, trend;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

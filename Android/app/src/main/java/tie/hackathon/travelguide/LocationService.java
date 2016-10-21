@@ -37,52 +37,6 @@ public class LocationService extends Service {
 
     Intent intent;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        intent = new Intent(BROADCAST_ACTION);
-    }
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        listener = new MyLocationListener();
-        if (ContextCompat.checkSelfPermission(LocationService.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
-        }
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    protected boolean isBetterLocation(Location location, Location currentBestLocation) {
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocationService.this);
-        Double m = distance(location.getLatitude(),
-                Double.parseDouble(sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, "0.0")),
-                location.getLongitude(),
-                Double.parseDouble(sharedPreferences.getString(Constants.DESTINATION_CITY_LON, "0.0")));
-        return m < 5000;
-    }
-
-
-    @Override
-    public void onDestroy() {
-        // handler.removeCallbacks(sendUpdatesToUI);
-        super.onDestroy();
-        Log.v("STOP_SERVICE", "DONE");
-        if (ContextCompat.checkSelfPermission(LocationService.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            locationManager.removeUpdates(listener);
-        }
-    }
-
     public static Thread performOnBackgroundThread(final Runnable runnable) {
         final Thread t = new Thread() {
             @Override
@@ -119,6 +73,50 @@ public class LocationService extends Service {
         return Math.sqrt(distance);
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        intent = new Intent(BROADCAST_ACTION);
+    }
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        listener = new MyLocationListener();
+        if (ContextCompat.checkSelfPermission(LocationService.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    protected boolean isBetterLocation(Location location, Location currentBestLocation) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocationService.this);
+        Double m = distance(location.getLatitude(),
+                Double.parseDouble(sharedPreferences.getString(Constants.DESTINATION_CITY_LAT, "0.0")),
+                location.getLongitude(),
+                Double.parseDouble(sharedPreferences.getString(Constants.DESTINATION_CITY_LON, "0.0")));
+        return m < 5000;
+    }
+
+    @Override
+    public void onDestroy() {
+        // handler.removeCallbacks(sendUpdatesToUI);
+        super.onDestroy();
+        Log.v("STOP_SERVICE", "DONE");
+        if (ContextCompat.checkSelfPermission(LocationService.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationManager.removeUpdates(listener);
+        }
+    }
 
     public class MyLocationListener implements LocationListener {
 

@@ -49,6 +49,7 @@ import okhttp3.Response;
 
 public class MyTripInfo extends AppCompatActivity {
 
+    private static final int INTENT_REQUEST_GET_IMAGES = 13;
     String id, title, start, end, city, friendid, img,
             mainfolder = "/storage/emulated/0/Pictures/", nameyet;
     Intent intent;
@@ -62,8 +63,6 @@ public class MyTripInfo extends AppCompatActivity {
     List<String> fname;
     List<File> imagesuri, mediaimages;
     private Handler mHandler;
-
-    private static final int INTENT_REQUEST_GET_IMAGES = 13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,63 +134,6 @@ public class MyTripInfo extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
-    public class Imagesadapter extends ArrayAdapter<File> {
-        private final Activity context;
-        private final List<File> name;
-
-
-        Imagesadapter(Activity context, List<File> name) {
-            super(context, R.layout.trip_listitem, name);
-            this.context = context;
-            this.name = name;
-        }
-
-        private class ViewHolder {
-            ImageView iv;
-        }
-
-        @Override
-        public View getView(final int position, View view, ViewGroup parent) {
-            ViewHolder holder;
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            if (view == null) {
-                view = mInflater.inflate(R.layout.image_listitem, null);
-                holder = new ViewHolder();
-                holder.iv = (ImageView) view.findViewById(R.id.iv);
-
-                view.setTag(holder);
-            } else
-                holder = (ViewHolder) view.getTag();
-            if (position == name.size() - 1) {
-                holder.iv.setImageResource(R.drawable.add_image);
-                holder.iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MyTripInfo.this, ImagePickerActivity.class);
-                        startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);
-
-                    }
-                });
-            } else {
-                holder.iv.setImageDrawable(Drawable.createFromPath(name.get(position).getAbsolutePath()));
-                holder.iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MyTripInfo.this, EventImage.class);
-                        ArrayList<String> a = new ArrayList<String>();
-                        a.add(name.get(position).getAbsolutePath());
-
-                        i.putExtra(Constants.EVENT_IMG, a);
-                        i.putExtra(Constants.EVENT_NAME, "Image");
-                        startActivity(i);
-                    }
-                });
-            }
-            return view;
-        }
-    }
-
 
     public void mytrip() {
 
@@ -281,43 +223,12 @@ public class MyTripInfo extends AppCompatActivity {
         }
     }
 
-    public class Friendnameadapter extends ArrayAdapter<String> {
-        private final Activity context;
-        private final List<String> name;
-
-        public Friendnameadapter(Activity context, List<String> name) {
-            super(context, R.layout.friend_listitem, name);
-            this.context = context;
-            this.name = name;
-        }
-
-        private class ViewHolder {
-            TextView iv;
-        }
-
-        @Override
-        public View getView(final int position, View view, ViewGroup parent) {
-            ViewHolder holder;
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            if (view == null) {
-                view = mInflater.inflate(R.layout.friend_listitem, null);
-                holder = new ViewHolder();
-                holder.iv = (TextView) view.findViewById(R.id.name);
-                view.setTag(holder);
-            } else
-                holder = (ViewHolder) view.getTag();
-            holder.iv.setText(name.get(position) + " ");
-            return view;
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
     }
-
 
     public void friendautocomplete() {
 
@@ -392,7 +303,6 @@ public class MyTripInfo extends AppCompatActivity {
         });
     }
 
-
     public void addfriend() {
 
         dialog = new MaterialDialog.Builder(MyTripInfo.this)
@@ -432,6 +342,92 @@ public class MyTripInfo extends AppCompatActivity {
 
             }
         });
+    }
+
+    public class Imagesadapter extends ArrayAdapter<File> {
+        private final Activity context;
+        private final List<File> name;
+
+
+        Imagesadapter(Activity context, List<File> name) {
+            super(context, R.layout.trip_listitem, name);
+            this.context = context;
+            this.name = name;
+        }
+
+        @Override
+        public View getView(final int position, View view, ViewGroup parent) {
+            ViewHolder holder;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            if (view == null) {
+                view = mInflater.inflate(R.layout.image_listitem, null);
+                holder = new ViewHolder();
+                holder.iv = (ImageView) view.findViewById(R.id.iv);
+
+                view.setTag(holder);
+            } else
+                holder = (ViewHolder) view.getTag();
+            if (position == name.size() - 1) {
+                holder.iv.setImageResource(R.drawable.add_image);
+                holder.iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MyTripInfo.this, ImagePickerActivity.class);
+                        startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);
+
+                    }
+                });
+            } else {
+                holder.iv.setImageDrawable(Drawable.createFromPath(name.get(position).getAbsolutePath()));
+                holder.iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(MyTripInfo.this, EventImage.class);
+                        ArrayList<String> a = new ArrayList<String>();
+                        a.add(name.get(position).getAbsolutePath());
+
+                        i.putExtra(Constants.EVENT_IMG, a);
+                        i.putExtra(Constants.EVENT_NAME, "Image");
+                        startActivity(i);
+                    }
+                });
+            }
+            return view;
+        }
+
+        private class ViewHolder {
+            ImageView iv;
+        }
+    }
+
+    public class Friendnameadapter extends ArrayAdapter<String> {
+        private final Activity context;
+        private final List<String> name;
+
+        public Friendnameadapter(Activity context, List<String> name) {
+            super(context, R.layout.friend_listitem, name);
+            this.context = context;
+            this.name = name;
+        }
+
+        @Override
+        public View getView(final int position, View view, ViewGroup parent) {
+            ViewHolder holder;
+            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            if (view == null) {
+                view = mInflater.inflate(R.layout.friend_listitem, null);
+                holder = new ViewHolder();
+                holder.iv = (TextView) view.findViewById(R.id.name);
+                view.setTag(holder);
+            } else
+                holder = (ViewHolder) view.getTag();
+            holder.iv.setText(name.get(position) + " ");
+            return view;
+        }
+
+        private class ViewHolder {
+            TextView iv;
+        }
     }
 
 }

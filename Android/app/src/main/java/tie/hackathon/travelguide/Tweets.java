@@ -123,23 +123,25 @@ public class Tweets extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
 
     public class Tweetsadapter extends ArrayAdapter<String> {
         private final Activity context;
         private final List<String> name, count, link;
 
 
-        public Tweetsadapter(Activity context, List<String> name, List<String> count, List<String> link) {
+        Tweetsadapter(Activity context, List<String> name, List<String> count, List<String> link) {
             super(context, R.layout.trip_listitem, name);
             this.context = context;
             this.name = name;
             this.count = count;
             this.link = link;
 
-        }
-
-        private class ViewHolder {
-            TextView name;
         }
 
         @Override
@@ -165,14 +167,10 @@ public class Tweets extends AppCompatActivity {
             });
             return view;
         }
-    }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            finish();
-        return super.onOptionsItemSelected(item);
+        private class ViewHolder {
+            TextView name;
+        }
     }
 
 }

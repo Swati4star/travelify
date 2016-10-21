@@ -14,13 +14,14 @@ import android.widget.ListView;
  */
 public class NestedListView extends ListView implements View.OnTouchListener, AbsListView.OnScrollListener {
 
-    private int listViewTouchAction;
     private static final int MAXIMUM_LIST_ITEMS_VIEWABLE = 99;
+    private int listViewTouchAction;
 
     /**
      * Initites nestedlistview object
-     * @param context   The context referring this class
-     * @param attrs     Set of attributes for nested listview
+     *
+     * @param context The context referring this class
+     * @param attrs   Set of attributes for nested listview
      */
     public NestedListView(Context context, AttributeSet attrs) {
         super(context, attrs);

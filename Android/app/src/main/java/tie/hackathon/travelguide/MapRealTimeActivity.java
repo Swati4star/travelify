@@ -284,10 +284,11 @@ public class MapRealTimeActivity extends AppCompatActivity {
 
     /**
      * Sets marker at given location on map
-     * @param LocationLat   latitude
-     * @param LocationLong  longitude
-     * @param LocationName  name of location
-     * @param LocationIcon  icon
+     *
+     * @param LocationLat  latitude
+     * @param LocationLong longitude
+     * @param LocationName name of location
+     * @param LocationIcon icon
      */
     public void ShowMarker(Double LocationLat, Double LocationLong, String LocationName, Integer LocationIcon) {
         LatLng Coord = new LatLng(LocationLat, LocationLong);

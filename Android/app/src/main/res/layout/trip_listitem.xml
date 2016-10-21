@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:background="#ffffffff"
         android:orientation="vertical"
-
         android:padding="10dp">
 
 

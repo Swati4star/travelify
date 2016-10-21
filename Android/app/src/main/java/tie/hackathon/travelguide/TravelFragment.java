@@ -14,22 +14,28 @@ import android.widget.LinearLayout;
 public class TravelFragment extends Fragment implements View.OnClickListener {
 
     Activity activity;
-    LinearLayout shop, realtime, mytrips;
+    LinearLayout vehicle, acc, shop, realtime, mytrips;
 
-    public TravelFragment() {}
+    public TravelFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         View v = inflater.inflate(R.layout.content_travel, container, false);
 
+        vehicle = (LinearLayout) v.findViewById(R.id.vehicle);
+        acc = (LinearLayout) v.findViewById(R.id.accomo);
+        shop = (LinearLayout) v.findViewById(R.id.shopping);
         mytrips = (LinearLayout) v.findViewById(R.id.mytrips);
         realtime = (LinearLayout) v.findViewById(R.id.realtime);
 
         realtime.setOnClickListener(this);
         mytrips.setOnClickListener(this);
+        vehicle.setOnClickListener(this);
+        acc.setOnClickListener(this);
+        shop.setOnClickListener(this);
 
         return v;
     }
@@ -44,20 +50,34 @@ public class TravelFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Intent intent;
+        Intent i;
 
         switch (view.getId()) {
 
+            case R.id.vehicle:
+                i = new Intent(activity, SelectModeOfTransport.class);
+                startActivity(i);
+                break;
+
+            case R.id.shopping:
+                i = new Intent(activity, ShoppingCurrentcity.class);
+                startActivity(i);
+                break;
+
+            case R.id.accomo:
+                i = new Intent(activity, Hotels.class);
+                startActivity(i);
+                break;
+
             case R.id.realtime:
-                intent = new Intent(activity, MapRealTimeActivity.class);
-                startActivity(intent);
+                i = new Intent(activity, MapRealTimeActivity.class);
+                startActivity(i);
                 break;
 
             case R.id.mytrips:
-                intent = new Intent(activity, MyTrips.class);
-                startActivity(intent);
+                i = new Intent(activity, MyTrips.class);
+                startActivity(i);
                 break;
         }
-
     }
 }

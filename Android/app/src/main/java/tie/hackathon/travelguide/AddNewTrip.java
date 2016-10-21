@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -45,14 +44,15 @@ import okhttp3.Response;
  */
 public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    public static final String DATEPICKER_TAG1 = "datepicker1", DATEPICKER_TAG2 = "datepicker2";
     AutoCompleteTextView cityname;
-    String nameyet, cityid = "2", startdate, enddate, tripname, userid;;
+    ;
+    String nameyet, cityid = "2", startdate, enddate, tripname, userid;
     FlatButton sdate, edate, ok;
     TextInputEditText tname;
-    public static final String DATEPICKER_TAG1 = "datepicker1", DATEPICKER_TAG2 = "datepicker2";
     MaterialDialog dialog;
-    private Handler mHandler;
     SharedPreferences sharedPreferences;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +143,8 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {}
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+    }
 
     /**
      * Calls city name autocomplete API
@@ -231,7 +232,7 @@ public class AddNewTrip extends AppCompatActivity implements DatePickerDialog.On
                 "&start_time=" + startdate +
                 "&city=" + cityid;
 
-        Log.e("CALLING : ", uri );
+        Log.e("CALLING : ", uri);
 
         //Set up client
         OkHttpClient client = new OkHttpClient();

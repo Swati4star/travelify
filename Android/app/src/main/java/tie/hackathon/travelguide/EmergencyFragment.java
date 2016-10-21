@@ -18,6 +18,7 @@ public class EmergencyFragment extends Fragment implements View.OnClickListener 
 
     Button police, fire, ambulance, blood_bank, bomb, railways;
     Activity activity;
+
     public EmergencyFragment() {
     }
 

@@ -68,12 +68,10 @@
                         android:id="@+id/VideoTitle"
                         android:layout_width="182dp"
                         android:layout_height="wrap_content"
-                        android:layout_column="0"
                         android:layout_gravity="top"
                         android:layout_margin="0dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="0dp"
-                        android:layout_row="0"
                         android:gravity="left"
                         android:text="Title of video"
                         android:textColor="#ff4a4a4a"
@@ -84,9 +82,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_column="0"
-                        android:layout_columnSpan="2"
-                        android:layout_row="1"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -100,14 +95,11 @@
                             android:id="@+id/VideoDescription"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_column="0"
-                            android:layout_columnSpan="2"
                             android:layout_marginBottom="10dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="10dp"
-                            android:layout_row="1"
                             android:maxLines="10"
-                            android:text="No description for this Book."
+                            android:text="@string/empty_description"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textSize="15sp" />
 
@@ -121,6 +113,7 @@
 
                             <Button
                                 android:id="@+id/call"
+                                style="?android:attr/buttonBarButtonStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
@@ -131,6 +124,7 @@
 
                             <Button
                                 android:id="@+id/book"
+                                style="?android:attr/buttonBarButtonStyle"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"

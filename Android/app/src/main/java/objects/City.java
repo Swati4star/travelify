@@ -18,13 +18,14 @@ public class City {
 
     /**
      * Instantiates city object
-     * @param id            unique id for a city
-     * @param avatar        city image
-     * @param nickname      city name
-     * @param background    Background color when card is opened
-     * @param lat           latitude of city
-     * @param lon           longitude of city
-     * @param interest      list of items when string is opened
+     *
+     * @param id         unique id for a city
+     * @param avatar     city image
+     * @param nickname   city name
+     * @param background Background color when card is opened
+     * @param lat        latitude of city
+     * @param lon        longitude of city
+     * @param interest   list of items when string is opened
      */
     public City(String id, String avatar, String nickname, int background, String lat, String lon, String... interest) {
         this.avatar = avatar;

@@ -73,23 +73,11 @@ public class FlipViewPager extends FrameLayout {
     private int mActivePointerId = INVALID_POINTER;
 
     private OnChangePageListener onChangePageListener;
+    private ListAdapter adapter;
 
-    // Internal interface to store page position
-    public interface OnChangePageListener {
-        void onFlipped(int page);
-    }
-
-    class PageItem {
-        View pageView;
-
-        void recycle() {
-            removeView(pageView);
-        }
-
-        void fill(int i) {
-            pageView = pages.get(i).pageView;
-            addView(pageView);
-        }
+    public FlipViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
     }
 
     private void setFlipDistance(float flipDistance) {
@@ -112,11 +100,6 @@ public class FlipViewPager extends FrameLayout {
         }
 
         invalidate();
-    }
-
-    public FlipViewPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
     }
 
     private void init() {
@@ -405,7 +388,6 @@ public class FlipViewPager extends FrameLayout {
         getParent().requestDisallowInterceptTouchEvent(isFlipping);
     }
 
-
     private void drawFlippingShadeShine(Canvas canvas) {
         if (getDegreesDone() < 90) {
             mShinePaint.setAlpha((int) ((getDegreesDone() / 90f) * FLIP_SHADE_ALPHA));
@@ -492,8 +474,6 @@ public class FlipViewPager extends FrameLayout {
         }
     }
 
-    private ListAdapter adapter;
-
     public ListAdapter getAdapter() {
         return adapter;
     }
@@ -522,5 +502,23 @@ public class FlipViewPager extends FrameLayout {
         endFlip();
         mScroller.startScroll(0, (int) mFlipDistance, 0, delta, getFlipDuration(delta));
         invalidate();
+    }
+
+    // Internal interface to store page position
+    public interface OnChangePageListener {
+        void onFlipped(int page);
+    }
+
+    class PageItem {
+        View pageView;
+
+        void recycle() {
+            removeView(pageView);
+        }
+
+        void fill(int i) {
+            pageView = pages.get(i).pageView;
+            addView(pageView);
+        }
     }
 }

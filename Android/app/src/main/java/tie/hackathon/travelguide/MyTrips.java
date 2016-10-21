@@ -147,8 +147,8 @@ public class MyTrips extends AppCompatActivity {
     public class MyTripsadapter extends ArrayAdapter<String> {
         private final Activity context;
         private final List<String> ids, name, image, start, end;
-
-
+        ImageView city;
+        TextView cityname, date;
         public MyTripsadapter(Activity context, List<String> id, List<String> name, List<String> image, List<String> start, List<String> end) {
             super(context, R.layout.trip_listitem, id);
             this.context = context;
@@ -158,9 +158,6 @@ public class MyTrips extends AppCompatActivity {
             this.start = start;
             this.end = end;
         }
-
-        ImageView city;
-        TextView cityname, date;
 
         @Override
         public View getView(final int position, View view2, ViewGroup parent) {

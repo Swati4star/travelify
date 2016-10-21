@@ -176,12 +176,6 @@ public class CheckListFragment extends Fragment {
             this.isdone = done;
         }
 
-
-        class ViewHolder {
-            CheckBox c;
-        }
-
-
         @Override
         public View getView(final int position, View view, ViewGroup parent) {
             LayoutInflater inflater = context.getLayoutInflater();
@@ -233,6 +227,10 @@ public class CheckListFragment extends Fragment {
             });
 
             return vi;
+        }
+
+        class ViewHolder {
+            CheckBox c;
         }
     }
 }

@@ -52,16 +52,14 @@ public class CityFragment extends Fragment {
 
     AutoCompleteTextView cityname;
     String nameyet;
-    private Handler mHandler;
-
     List<String> id = new ArrayList<>();
     List<String> list2 = new ArrayList<>();
-
     Activity activity;
     ProgressBar pb;
     String cityid;
     Typeface tex;
     ListView lv;
+    private Handler mHandler;
 
     public CityFragment() {
     }

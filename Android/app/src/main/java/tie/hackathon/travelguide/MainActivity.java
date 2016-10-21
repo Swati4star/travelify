@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -35,11 +33,11 @@ import Util.Constants;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private BeaconManager beaconManager;
-    private Region region;
     SharedPreferences sharedPreferences;
     Boolean discovered = false;
     String beaconmajor;
+    private BeaconManager beaconManager;
+    private Region region;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,21 +103,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA,
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.BLUETOOTH,
-                                Manifest.permission.BLUETOOTH_ADMIN,
-                                Manifest.permission.READ_CONTACTS,
-                                Manifest.permission.WRITE_CONTACTS,
-                                Manifest.permission.READ_PHONE_STATE,
-                                Manifest.permission.WAKE_LOCK,
-                                Manifest.permission.INTERNET,
-                                Manifest.permission.ACCESS_NETWORK_STATE,
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.VIBRATE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.BLUETOOTH,
+                        Manifest.permission.BLUETOOTH_ADMIN,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.WRITE_CONTACTS,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WAKE_LOCK,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.VIBRATE,
 
-                        }, 0);
+                }, 0);
             }
         }
 
@@ -165,6 +163,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new CityFragment();
             fragmentManager.beginTransaction().replace(R.id.inc, fragment).commit();
 
+        } else if (id == R.id.nav_music) {
+
+            Intent intent = new Intent(MainActivity.this, Music.class);
+            startActivity(intent);
         } else if (id == R.id.nav_utility) {
 
             fragment = new UtilitiesFragment();

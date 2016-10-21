@@ -20,21 +20,22 @@ import java.io.FileOutputStream;
 
 /**
  * Created by swati on 25/1/16.
- *
+ * <p>
  * to display fun facts about a city
  */
 public class FunfactFragment extends Fragment {
-    File file;
     public static final String EXTRA_MESSAGE_IMAGE = "_image";
     public static final String EXTRA_MESSAGE_TEXT = "_text";
     public static final String EXTRA_MESSAGE_TITLE = "_title";
+    File file;
 
     /**
      * instantiate funfact fragment
+     *
      * @param image Image of fun fact
      * @param text  Fun fact text
      * @param title Title
-     * @return      fragment object
+     * @return fragment object
      */
     public static FunfactFragment newInstance(String image, String text, String title) {
         FunfactFragment fragment = new FunfactFragment();
@@ -44,6 +45,20 @@ public class FunfactFragment extends Fragment {
         bdl.putString(EXTRA_MESSAGE_TITLE, title);
         fragment.setArguments(bdl);
         return fragment;
+    }
+
+    /**
+     * Takes screenshot of current screen
+     *
+     * @param view to be taken screenshot of
+     * @return bitmap of the screenshot
+     */
+    public static Bitmap getScreenShot(View view) {
+        View screenView = view.getRootView();
+        screenView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        screenView.setDrawingCacheEnabled(false);
+        return bitmap;
     }
 
     @Override
@@ -77,22 +92,10 @@ public class FunfactFragment extends Fragment {
     }
 
     /**
-     * Takes screenshot of current screen
-     * @param view to be taken screenshot of
-     * @return     bitmap of the screenshot
-     */
-    public static Bitmap getScreenShot(View view) {
-        View screenView = view.getRootView();
-        screenView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
-        screenView.setDrawingCacheEnabled(false);
-        return bitmap;
-    }
-
-    /**
      * Store bitmap file in MyScreenshots directory
-     * @param bitmap        bitmap to be saved
-     * @param fileName  Name of bitmap file
+     *
+     * @param bitmap   bitmap to be saved
+     * @param fileName Name of bitmap file
      */
     public void store(Bitmap bitmap, String fileName) {
         String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyScreenshots";
@@ -112,7 +115,8 @@ public class FunfactFragment extends Fragment {
 
     /**
      * To Share a file via file sharer
-     * @param file  File location to be shared
+     *
+     * @param file File location to be shared
      */
     private void shareImage(File file) {
         Uri uri = Uri.fromFile(file);
